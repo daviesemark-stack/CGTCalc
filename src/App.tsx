@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useCalculator } from './hooks/useCalculator';
 import { DisclaimerBanner } from './components/layout/DisclaimerBanner';
 import { CollapsibleSection } from './components/inputs/CollapsibleSection';
@@ -6,21 +7,34 @@ import { Section2SaleDetails } from './components/inputs/Section2SaleDetails';
 import { Section3IncomeTax } from './components/inputs/Section3IncomeTax';
 import { Section4SmallBusiness } from './components/inputs/Section4SmallBusiness';
 import { ResultsPanel } from './components/results/ResultsPanel';
+import { FeedbackModal } from './components/feedback/FeedbackModal';
 
 export default function App() {
   const { state, results, sections12Complete, setField, dispatch } = useCalculator();
   const { inputs, section3Expanded, section4Expanded } = state;
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white border-b border-gray-200 px-4 py-4">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-xl font-bold text-gray-900">CGT Reform Calculator</h1>
-          <p className="text-sm text-gray-500 mt-0.5">
-            Australian capital gains tax estimator — 2026–27 Budget proposed changes
-          </p>
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
+          <div>
+            <h1 className="text-xl font-bold text-gray-900">CGT Reform Calculator</h1>
+            <p className="text-sm text-gray-500 mt-0.5">
+              Australian capital gains tax estimator — 2026–27 Budget proposed changes
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setFeedbackOpen(true)}
+            className="text-sm text-blue-600 hover:text-blue-700 underline shrink-0 ml-4"
+          >
+            Send feedback
+          </button>
         </div>
       </header>
+
+      <FeedbackModal isOpen={feedbackOpen} onClose={() => setFeedbackOpen(false)} />
 
       <main className="max-w-6xl mx-auto px-4 py-6">
         <DisclaimerBanner />
